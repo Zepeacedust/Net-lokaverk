@@ -6,9 +6,6 @@ connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password=
 cursor = connection.cursor()
 #alltaf gaman að fara overboard
 app.secret_key = secrets.token_hex(255)
-def authorize(user):
-    pass
-    #todo tengja við localhost, muna að breyta aftur
 
 ##stal smá kóða af fólki sem veit betur
 def hash_password(password):
@@ -26,22 +23,19 @@ def verify_password(stored_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
 
-def verify():
-    cursor.execute("SELECT * FROM users")
-    rows = cursor.fetchall()
-    for row in rows:
-        print("{0} {1} {2}".format(row[0], row[1], row[2]))
-     
+
 @app.route('/')
 def index():
     if "user" not in session.keys():
-        user = {"uname":None,"pass":None,"nafn":None}
+        user = {"name":None,"pass":None}
     else:
         user = session["user"]
     print(user)
     print(session)
     print(session.keys())
     return rend("index.html", user=user)
+
+
 @app.route("/signup")
 def signup():
     return rend("signup.html",code=None)
@@ -54,11 +48,10 @@ def addusr():
     rows = cursor.fetchall()
     if request.form['username'] in map(lambda x: x[0], rows):
         pass
-    cursor.execute("""INSERT INTO users (user, pass, nafn) VALUES
-    (%s, %s, %s);""" % 
-    (connection.escape(r['username']),
-    connection.escape(hash_password(r['password'])),
-    connection.escape(r['name'])))
+    cursor.execute("""INSERT INTO users (user, pass) VALUES
+    (%s, %s);""" % 
+    (connection.escape(r['user']),
+    connection.escape(hash_password(r['pass']))))
     return rend("signup.html",code=0)
 
 @app.route("/login")
@@ -74,7 +67,7 @@ def login():
     if rows!=():
         user = rows[0]
         if verify_password(user[2],r["password"]):
-            session["user"] = {"uname":user[0],"nafn":user[1],"pass":user[2]}
+            session["user"] = {"name":user[0],"pass":user[2]}
             print(session["user"])
         else: 
             return rend("login.html", code=1)
@@ -82,15 +75,19 @@ def login():
         print(rows)
         return rend("login.html", code=1)
     return rend("login.html", code=0)
+
+
 @app.route("/account")
 def account():
     if "user" in session.keys():
-        if session["user"]["uname"] != None:
+        if session["user"]["name"] != None:
             return rend("account.html", user = session["user"])
     return index()
+
+
 @app.route("/logout")
 def logout():
-    session["user"] ={"uname":None,"pass":None,"nafn":None}
+    session["user"] ={"name":None,"pass":None}
     return index()
 if __name__ == '__main__':
     app.run()
