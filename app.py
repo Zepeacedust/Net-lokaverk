@@ -45,8 +45,7 @@ def addusr():
     rows = cursor.fetchall()
     if request.form['username'] in map(lambda x: x[0], rows):
         pass
-    cursor.execute("""INSERT INTO users (user, pass) VALUES
-    (%s, %s);""" % 
+    cursor.execute("INSERT INTO users (username, pass) VALUES (%s, %s);" % 
     (connection.escape(r['user']),
     connection.escape(hash_password(r['pass']))))
     return rend("signup.html",code=0)
@@ -57,6 +56,13 @@ def login_page():
     return rend("login.html",code = None)
 
 @app.route("/post", methods=['POST'])
+def post():
+    r=request.form
+    cursor.execute("INSERT INTO posts (title, body, author) VALUES (%s, %s);" % 
+    (
+    connection.escape(r['title']),
+    connection.escape(r['pass'])))
+
 
 @app.route("/login/process",methods=['POST'])
 def login():
