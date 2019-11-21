@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
 {% block content %}
-{% if user.nafn != None %}
-<p>Halló {{user.nafn}}</p>
-<a href="/account">account control</a>
-<a href="/logout">Logout</a>
-{% else %}
-<a href="/login">Login</a>
-<a href="/signup">Sign up</a>
-{% endif %}
+
+{% include "logins.html" %}
 {% endblock %}

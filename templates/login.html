@@ -2,14 +2,14 @@
 {% block title %}login{% endblock %}
 {% block content %}
 <form action="/login/process" method="post">
-    <p><input type="text" name="username" placeholder="Notendanafn" required></p>
-    <p><input type="password" name="password" minlength="10" placeholder="Password" required><p>
+    <p><input type="text" name="user" placeholder="Name" required></p>
+    <p><input type="password" name="pass" minlength="10" placeholder="Password" required><p>
     <p><input type="submit" value="Login"></p>
 </form>
 {% if code == 0 %}
 <p>Success</p>
-{% elif  code == 1  %}
-<p>Failiure</p>
+{% elif code == 1 %}
+<p>Failure</p>
 {% endif %}
 <a href="/">Go Back</a>
 {% endblock %}

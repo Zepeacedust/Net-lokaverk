@@ -30,9 +30,6 @@ def index():
         user = {"name":None,"pass":None}
     else:
         user = session["user"]
-    print(user)
-    print(session)
-    print(session.keys())
     return rend("index.html", user=user)
 
 
@@ -54,9 +51,12 @@ def addusr():
     connection.escape(hash_password(r['pass']))))
     return rend("signup.html",code=0)
 
+
 @app.route("/login")
 def login_page():
     return rend("login.html",code = None)
+
+@app.route("/post", methods=['POST'])
 
 @app.route("/login/process",methods=['POST'])
 def login():
@@ -66,7 +66,7 @@ def login():
     rows = cursor.fetchall()
     if rows!=():
         user = rows[0]
-        if verify_password(user[2],r["password"]):
+        if verify_password(user[2],r["pass"]):
             session["user"] = {"name":user[0],"pass":user[2]}
             print(session["user"])
         else: 
