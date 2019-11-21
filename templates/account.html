@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block  title %}{{ user.nafn }}{% endblock %}
+{% block content %}
+<p>username:{{user.uname}}</p>
+<p>password hash:{{user.pass}}</p>
+<p>Display name:{{user.nafn}}</p>
+{% endblock %}
