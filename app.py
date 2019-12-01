@@ -4,6 +4,7 @@ import binascii
 import os
 import pymysql
 import secrets
+from boto.s3.connection import S3Connection
 app = Flask(__name__)
 # todo connecta rétt
 connection = pymysql.connect(host='tsuts.tskoli.is', port=3306, user='0903032790',
@@ -12,8 +13,8 @@ cursor = connection.cursor()
 # alltaf gaman að fara overboard
 app.secret_key = secrets.token_hex(255)
 
+s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
 # stal smá kóða af fólki sem veit betur
-
 
 def hash_password(password):
     # Hash a password for storing.
@@ -38,7 +39,6 @@ def verify_password(stored_password, provided_password):
 def index():
     cursor.execute("select * from posts;")
     posts = cursor.fetchall()
-    print(session)
     if "user" not in session.keys():
         session["user"] = {"name": None, "pass": None}
     user = session["user"]
@@ -53,7 +53,6 @@ def signup():
 @app.route("/signup/create", methods=['POST'])
 def addusr():
     r = request.form
-    print(r)
     cursor.execute("SELECT * FROM users")
     rows = cursor.fetchall()
     if request.form['username'] in map(lambda x: x[0], rows):
@@ -136,14 +135,14 @@ def account():
     if "user" in session.keys():
         if session["user"]["name"] != None:
             return rend("account.html", user=session["user"])
-    return index()
+    return redirect(url_for("index"))
 
 
 @app.route("/logout")
 def logout():
     session["user"] = {"name": None, "pass": None}
-    return index()
+    return redirect(url_for("index"))
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

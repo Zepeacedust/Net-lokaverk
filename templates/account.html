@@ -2,5 +2,6 @@
 {% block  title %}{{ user.name }}{% endblock %}
 {% block content %}
 <p>username:{{ user.name }}</p>
-<p>Password hash: {{ user.pass}}</p>
+<p>Password hash: {{ user.pass }}</p>
+{% include "sidebar.html" %}
 {% endblock %}

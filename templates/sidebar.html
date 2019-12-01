@@ -1,0 +1,14 @@
+<div class="sidebar">
+        
+        {% include "logins.html" %}
+        {% if user.name != None %}
+        <p>Title</p>
+        <form action="/post" method="post">
+            <input type="text" name="title">
+            <p>post body</p>
+            <textarea name="body" cols="30" rows="10"></textarea>
+            <input type="hidden" name="name" value="{{ user.name }}">
+            <input type="submit" value="Post">
+        </form>
+    </div>
+    {% endif %}

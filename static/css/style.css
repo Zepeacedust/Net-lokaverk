@@ -1,4 +1,18 @@
+body {
+    background-color: slategray;
+}
 .content {
     display: grid;
     grid-template-columns: 3fr 1fr;
+    height: 100%;
+    width: 100%;
+}
+.sidebar{
+    width: 100%;
+    border: 3px solid slateblue;
+}
+.post {
+    border: rgb(90, 100, 115) 2px solid;
+    background-color: rgb(100, 110, 125);
+    min-height: 5em;
 }
