@@ -13,7 +13,7 @@ cursor = connection.cursor()
 # alltaf gaman að fara overboard
 app.secret_key = secrets.token_hex(255)
 
-s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
+s3 =  os.environ.get('IS_HEROKU', None)
 # stal smá kóða af fólki sem veit betur
 
 def hash_password(password):
