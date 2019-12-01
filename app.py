@@ -1,5 +1,5 @@
 from flask import Flask, render_template as rend, session, request, redirect, url_for
-import hashlib, binascii, os, pymysql, secrets
+import hashlib, binascii, os, pymysql
 app = Flask(__name__)
 # todo connecta rétt
 connection = pymysql.connect(host='tsuts.tskoli.is', port=3306, user='0903032790',
@@ -44,9 +44,6 @@ def index():
 def signup():
     return rend("signup.html", code=None)
 
-@app.route("/debug")
-def debug():
-    return s3
 
 @app.route("/signup/create", methods=['POST'])
 def addusr():
