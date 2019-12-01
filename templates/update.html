@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}update{% endblock %}
+{% block content %}
+<p>
+    {{ post[2] }}
+</p>
+<form action="/update/{{ post[0] }}/change" method="post">
+    <textarea name="change" cols="30" rows="10"></textarea>
+    <p><input type="submit" value="update"></p>
+</form>
+{% endblock %}

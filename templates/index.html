@@ -1,7 +1,34 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
 {% block content %}
-{% for post in posts %}
-{% endfor %}
-{% include "logins.html" %}
+<div class="content">
+    <div class="main">
+        
+        {% for post in posts %}
+        <h1>
+            {{ post[1] }} by {{ post[3] }}
+        </h1>
+        <p>
+            {{ post[2] }}
+        </p>
+        {% if post[3] == user.name %}
+        <a href="/delete/{{post[0]}}">Delete</a>
+        <a href="/update/{{post[0]}}">Edit</a>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div class="sidebar">
+        
+        {% include "logins.html" %}
+        {% if user.name != None %}
+        <form action="/post" method="post">
+            <input type="text" name="title">
+            <br>
+            <textarea name="body" cols="30" rows="10"></textarea>
+            <input type="hidden" name="name" value="{{ user.name }}">
+            <input type="submit" value="Post">
+        </div>
+    </form>
+    {% endif %}
+</div>
 {% endblock %}
