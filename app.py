@@ -1,19 +1,14 @@
 from flask import Flask, render_template as rend, session, request, redirect, url_for
-import hashlib
-import binascii
-import os
-import pymysql
-import secrets
-from boto.s3.connection import S3Connection
+import hashlib, binascii, os, pymysql, secrets
 app = Flask(__name__)
 # todo connecta rétt
 connection = pymysql.connect(host='tsuts.tskoli.is', port=3306, user='0903032790',
                              password='mypassword', database='0903032790_users', autocommit=True)
 cursor = connection.cursor()
 # alltaf gaman að fara overboard
-app.secret_key = secrets.token_hex(255)
 
-s3 =  os.environ.get('IS_HEROKU', None)
+s3 =  os.environ.get('SECRET', None)
+app.secret_key = s3
 # stal smá kóða af fólki sem veit betur
 
 def hash_password(password):
