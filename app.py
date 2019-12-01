@@ -49,6 +49,9 @@ def index():
 def signup():
     return rend("signup.html", code=None)
 
+@app.route("/debug")
+def debug():
+    return s3
 
 @app.route("/signup/create", methods=['POST'])
 def addusr():
